@@ -1,0 +1,15 @@
+li a {
+    color: green;
+}
+
+body {
+    /*
+     background: white url("images/if_beetle_285806.png") no-repeat;
+    */
+    color: #383838;
+}
+
+
+ul{
+  list-style: none;
+}

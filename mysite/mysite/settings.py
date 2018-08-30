@@ -52,6 +52,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'mysite.urls'
 
+# setting.py revised 8/30/2018 Yutaro W.
+# https://qiita.com/ooishi/items/79dbbfc49ce11708e585
+SETTINGS_PATH = os.path.normpath(os.path.dirname(__file__)) 
+TEMPLATE_DIRS = (
+    os.path.join(SETTINGS_PATH, 'templates'), 
+    )
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
