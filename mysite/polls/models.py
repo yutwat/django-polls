@@ -2,10 +2,12 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django_markdown.models import MarkdownField
 
 class Question(models.Model):
 	question_text = models.CharField(max_length=200)
 	question_description = models.TextField(blank=True)
+	# question_description = MarkdownField()
 	pub_date = models.DateTimeField('date published')
 
 	def __str__(self):
@@ -35,8 +37,8 @@ class Choice(models.Model):
 class Descriptive(models.Model):
 	question = models.ForeignKey(Question, on_delete=models.CASCADE)
 	descriptive_text = models.CharField(max_length=200)
+	votes = models.IntegerField(default=0)
 
 	# ...
 	def __str__(self):
 		return self.descriptive_text 
-
