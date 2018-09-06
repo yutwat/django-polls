@@ -1,7 +1,6 @@
 <!------------- HEADER --------------->
 <!-- >
 Auther: Yutaro Watanabe
-
 Changing Log
 - First issued on Aug 27 2018
 - List view was added on Sep 4 2018
@@ -39,6 +38,8 @@ Changing Log
 </div>
 
 <!-- Content -->
+<div id="content", class="flex">
+
 <h1>{{ "Questions" }}</h1>
 
 {% if latest_question_list %}
@@ -72,18 +73,4 @@ Changing Log
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
-
-
-<!-- old code >
-
-{% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
-
-<-->
+</div>

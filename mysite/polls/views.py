@@ -24,11 +24,25 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
 	model = Question
 	template_name = 'polls/detail.html'
+
 	def get_queryset(self):
 		"""
 		Excludes any questions that aren't published yet.
 		"""
 		return Question.objects.filter(pub_date__lte=timezone.now())
+
+	def check_answer(self):
+		if selected_choice == Answer.answer_text:
+			return render(request, 'polls/detail.html', {
+				'question': question,
+				'correct_message': 'Correct!',
+			})
+		else:
+			return render(request, 'polls/detail.html', {
+				'question': question,
+				'incorrect_message': 'Wrong answer...',
+			})
+
 
 
 class ResultsView(generic.DetailView):
@@ -73,9 +87,15 @@ def vote(request, question_id):
 		# Always return an HttpResponseRedirect after successfully dealing
 		# with POST data. This prevents data from being posted twice if a
 		# user hits the Back button.
-		return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+		# return HttpResponseRedirect(reverse('polls:check', args=(question.id,)))
+		return render(request, reverse('polls:vote', args=(question.id,)), {
+			'selected_choice': selected_choice,
+			})
 
-	if selected_choice == Answer.answer_text:
+
+def check_answer(request, question_id):
+	
+	if selected_choice == Answer.objects.get(id=1):
 		return render(request, 'polls/detail.html', {
 			'question': question,
 			'correct_message': 'Correct!',
@@ -83,6 +103,6 @@ def vote(request, question_id):
 	else:
 		return render(request, 'polls/detail.html', {
 			'question': question,
-			'incorrect_message': 'Incorrect!',
+			'incorrect_message': 'Wrong answer...',
 		})
 	
