@@ -3,7 +3,7 @@ from .models import Question, Choice, Answer
 
 class AnswerInline(admin.TabularInline):
     model = Answer
-    extra = 1
+    extra = 0
 
 class ChoiceInline(admin.TabularInline):
     model = Choice

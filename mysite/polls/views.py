@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 
-from .models import Choice, Question
+from .models import Question, Choice, Answer
 
 
 class IndexView(generic.ListView):
@@ -74,3 +74,15 @@ def vote(request, question_id):
 		# with POST data. This prevents data from being posted twice if a
 		# user hits the Back button.
 		return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+	if selected_choice == Answer.answer_text:
+		return render(request, 'polls/detail.html', {
+			'question': question,
+			'correct_message': 'Correct!',
+		})
+	else:
+		return render(request, 'polls/detail.html', {
+			'question': question,
+			'incorrect_message': 'Incorrect!',
+		})
+	

@@ -24,6 +24,12 @@
     <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
 {% endfor %}
 
+<br>
+
+{% if correct_message %}
+<p><strong>{{ correct_message }}</strong></p>
+{% endif %}
+
 
 <br>
 
