@@ -1,41 +1,36 @@
 {% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'polls/base.css' %}" />
 
-<!-- Latest compiled and minified CSS -->
+	<!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
 
 <h1>Question-{{question.id}}: {{ question.question_text }}</h1>
 
 <body>
+	<br>
+	<p>{{ question.description|linebreaksbr }}</p><br>
 
-<br>
-<p>{{ question.description|linebreaksbr }}</p>
-<br>
+	{% if error_message %}
+		<p><strong>{{ error_message }}</strong></p>
+	{% endif %}
 
-{% if error_message %}
-<p><strong>{{ error_message }}</strong></p>
-{% endif %}
+	
+	
+	<form action="{% url 'polls:detail' question.id %}" method="post">
+	<!-- >
+	<form method="get">
+	<form action="" method="post">
+	<-->
+		{% csrf_token %}
+		{% for choice in question.choice_set.all %}
+		    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+		    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+		{% endfor %}<br>
 
-<form action="{% url 'polls:vote' question.id %}" method="post">
-{% csrf_token %}
-{% for choice in question.choice_set.all %}
-    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-{% endfor %}
+		<input type="submit" value="Vote">
+	</form>
 
-<br>
-
-{% if correct_message %}
-<p><strong>{{ correct_message }}</strong></p>
-{% else %}
-<p><strong>{{ incorrect_message }}</strong></p>
-{% endif %}
-
-
-<br>
-
-<input type="submit" value="Vote">
-</form>
-
+	{% if choice %}
+		<p><strong>{{ choice }}</strong></p>
+	{% endif %}<br>
 </body>
