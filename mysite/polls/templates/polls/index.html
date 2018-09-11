@@ -43,7 +43,6 @@ Changing Log
 <h1>{{ "Questions" }}</h1>
 
 {% if latest_question_list %}
-    <!--questions are shown on a table, modified on Sep 4 2018-->
     <table>
         <thead>
           <tr>
@@ -55,9 +54,9 @@ Changing Log
         <tbody>
             {% for question in latest_question_list %}
             <tr>
-                <td><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></td>
+                <td><a href="{% url 'polls:detail' question.id %}"> {{ question.question_text }} </a></td>
                 <td>{{question.pub_date}}</td> <!--comment: need to hide time from datetime data-->
-            </tr>>
+            </tr>
 
         <!--changed from list view to table, Sep 4 2018-->
         <!--bullet list>

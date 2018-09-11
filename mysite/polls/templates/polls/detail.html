@@ -37,4 +37,7 @@
 		<p><strong>{{ incorrect_message }}</strong></p>
 	{% endif %}
 
+	<a href="{% url 'polls:index' %}">Return</a>
+	<a href="{% url 'polls:detail'  question.id %}">Next Quiz</a>
+
 </body>
