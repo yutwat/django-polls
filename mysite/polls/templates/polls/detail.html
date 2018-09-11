@@ -18,10 +18,6 @@
 	
 	
 	<form action="{% url 'polls:vote' question.id %}" method="post">
-	<!-- >
-	<form method="get">
-	<form action="" method="get">
-	<-->
 		{% csrf_token %}
 		{% for choice in question.choice_set.all %}
 		    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
