@@ -18,23 +18,20 @@ Changing Log
 <!-- Header -->
 <div id="header">
     <div id="branding">
-        <h1 id="site-name"><a href="/admin/">E-Learning</a></h1>
+        <h1 id="site-name"><a href="/polls/">EL Platform</a></h1>
     </div>
     <div id="user-tools">
         Welcome,
         <strong>yutwat</strong>.
         <a href="/">View site</a> /
-        <a href="/admin/password_change/">Change password</a> /
-        <a href="/admin/logout/">Log out</a>
+        <a href="/password_change/">Change password</a> /
+        <a href="/logout/">Log out</a>
     </div>
 </div>
 <!-- END Header -->
 
 <div class="breadcrumbs">
-    <a href="/admin/">Home</a>
-    › 
-    <a href="/admin/polls/">Polls</a>
-    › Questions
+    <a href="/polls/">Home</a>
 </div>
 
 <!-- Content -->
@@ -57,14 +54,6 @@ Changing Log
                 <td><a href="{% url 'polls:detail' question.id %}"> {{ question.question_text }} </a></td>
                 <td>{{question.pub_date}}</td> <!--comment: need to hide time from datetime data-->
             </tr>
-
-        <!--changed from list view to table, Sep 4 2018-->
-        <!--bullet list>
-            <ul>
-            {% for question in latest_question_list %}
-            <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-            {% endfor %}
-        <-->
             {% endfor %}
         </tbody>
     </table>

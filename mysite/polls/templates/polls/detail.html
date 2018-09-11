@@ -5,9 +5,54 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <-->
 
-<h1>Question-{{question.id}}: {{ question.question_text }}</h1>
+<!------------- HEADER --------------->
+<!-- >
+Auther: Yutaro Watanabe
+Changing Log
+- First issued on Aug 27 2018
+- List view was added on Sep 4 2018
+<------------------------------------->
+
+
+<!--stylesheet load-->
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/base.css' %}" />
+
+<!-- Latest compiled and minified CSS >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<-->
+
+<!-- Header -->
+<div id="header">
+    <div id="branding">
+        <h1 id="site-name"><a href="/polls/">EL Platform</a></h1>
+    </div>
+    <div id="user-tools">
+        Welcome,
+        <strong>yutwat</strong>.
+        <a href="/">View site</a> /
+        <a href="/password_change/">Change password</a> /
+        <a href="/logout/">Log out</a>
+    </div>
+</div>
+<!-- END Header -->
+
+<div class="breadcrumbs">
+    <a href="/polls/">Home</a>
+    > 
+    <a href="{% url 'polls:detail' question.id %}">Question-{{ question.id }}</a>
+</div>
+
+<!-- Content -->
 
 <body>
+<div id="content", class="flex">
+
+<h1>Question-{{question.id}}</h1>
+
+<h2>{{ question.question_text }}</h2>
+
+
 	<br>
 	<p>{{ question.description|linebreaksbr }}</p><br>
 
@@ -38,6 +83,8 @@
 	{% endif %}
 
 	<a href="{% url 'polls:index' %}">Return</a>
-	<a href="{% url 'polls:detail'  question.id %}">Next Quiz</a>
+	<a href="{% url 'polls:detail'  question.id %}" align="right">Next Quiz</a>
+
+</div>
 
 </body>
