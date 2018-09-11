@@ -31,18 +31,6 @@ class DetailView(generic.DetailView):
 		"""
 		return Question.objects.filter(pub_date__lte=timezone.now())
 
-	def check_answer(self):
-		if selected_choice == Answer.answer_text:
-			return render(request, 'polls/detail.html', {
-				'question': question,
-				'correct_message': 'Correct!',
-			})
-		else:
-			return render(request, 'polls/detail.html', {
-				'question': question,
-				'incorrect_message': 'Wrong answer...',
-			})
-
 
 
 class ResultsView(generic.DetailView):
@@ -87,22 +75,33 @@ def vote(request, question_id):
 		# Always return an HttpResponseRedirect after successfully dealing
 		# with POST data. This prevents data from being posted twice if a
 		# user hits the Back button.
-		# return HttpResponseRedirect(reverse('polls:check', args=(question.id,)))
-		return render(request, reverse('polls:detail', args=(question.id,)), {
-			'selected_choice': request.GET['selected_choice'],
+		
+		if str(selected_choice) == str(Answer.objects.get(id=1)):
+			return render(request, 'polls/detail.html', {
+				'question': question,
+				'selected_choice': selected_choice,
+				'answer': str(Answer.objects.get(id=1)),
+				'correct_message': 'Correct!',
 			})
+		else:
+			return render(request, 'polls/detail.html', {
+				'question': question,
+				'selected_choice': selected_choice,
+				'answer': str(Answer.objects.get(id=1)),
+				'incorrect_message': 'Incorrect.',
+			})
+
+		# return HttpResponseRedirect(reverse('polls:check', args=(question.id,)))
+		# return render(request, reverse('polls:check', args=(question.id,)), {
+		# 	'selected_choice': request.POST['choice'],
+		# 	})
 
 
 def check_answer(request, question_id):
-	
-	if selected_choice == Answer.objects.get(id=1):
+	question = get_object_or_404(Question, pk=question_id)
+	if request.GET.get('choice') == 'owe':
 		return render(request, 'polls/detail.html', {
 			'question': question,
 			'correct_message': 'Correct!',
-		})
-	else:
-		return render(request, 'polls/detail.html', {
-			'question': question,
-			'incorrect_message': 'Wrong answer...',
 		})
 	

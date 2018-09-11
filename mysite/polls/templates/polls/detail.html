@@ -1,8 +1,9 @@
 {% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'polls/base.css' %}" />
 
-	<!-- Latest compiled and minified CSS -->
+	<!-- Latest compiled and minified CSS >
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <-->
 
 <h1>Question-{{question.id}}: {{ question.question_text }}</h1>
 
@@ -16,10 +17,10 @@
 
 	
 	
-	<form action="{% url 'polls:detail' question.id %}" method="post">
+	<form action="{% url 'polls:vote' question.id %}" method="post">
 	<!-- >
 	<form method="get">
-	<form action="" method="post">
+	<form action="" method="get">
 	<-->
 		{% csrf_token %}
 		{% for choice in question.choice_set.all %}
@@ -27,10 +28,16 @@
 		    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
 		{% endfor %}<br>
 
-		<input type="submit" value="Vote">
-	</form>
+		<input type="submit" value="Submit">
+	</form><br>
 
-	{% if choice %}
-		<p><strong>{{ choice }}</strong></p>
-	{% endif %}<br>
+	{% if correct_message %}
+		<p>Selected Choice:  <strong>{{ selected_choice }}</strong></p>
+		<p>Answer:  <strong>{{ answer }}</strong></p>
+		<p><strong>{{ correct_message }}</strong></p>
+	{% elif incorrect_message %}
+		<p>Selected Choice:  <strong>{{ selected_choice }}</strong></p>
+		<p><strong>{{ incorrect_message }}</strong></p>
+	{% endif %}
+
 </body>
