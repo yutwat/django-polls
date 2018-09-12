@@ -81,6 +81,7 @@ def vote(request, question_id):
 				'question': question,
 				'selected_choice': selected_choice,
 				'answer': question.answer_set.get(),
+				'answer_description': question.answer_set.objects.get('description'),
 				'correct_message': 'Correct!',
 			})
 		else:
@@ -88,7 +89,7 @@ def vote(request, question_id):
 				'question': question,
 				'selected_choice': selected_choice,
 				'answer': question.answer_set.get(),
-				'incorrect_message': 'Incorrect.',
+				'incorrect_message': 'Incorrect..',
 			})
 
 		# return HttpResponseRedirect(reverse('polls:check', args=(question.id,)))
