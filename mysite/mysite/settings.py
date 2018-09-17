@@ -33,8 +33,8 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'accounts.apps.AccountsConfig',  # added
     'polls.apps.PollsConfig',  # added
+    'accounts.apps.AccountsConfig',  # added
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -65,7 +65,9 @@ TEMPLATE_DIRS = (
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'), 
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
