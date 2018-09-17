@@ -81,7 +81,7 @@ def vote(request, question_id):
 				'question': question,
 				'selected_choice': selected_choice,
 				'answer': question.answer_set.get(),
-				'answer_description': question.answer_set.objects.get('description'),
+				'answer_description': question.answer_set.get(),
 				'correct_message': 'Correct!',
 			})
 		else:
