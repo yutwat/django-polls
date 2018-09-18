@@ -6,59 +6,35 @@ Changing Log
 - List view was added on Sep 4 2018
 <------------------------------------->
 
+{% extends 'base.html' %}
 
-<!--stylesheet load-->
-{% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'polls/base.css' %}" />
 
-<!-- Latest compiled and minified CSS >
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<-->
-
-<!-- Header -->
-<div id="header">
-    <div id="branding">
-        <h1 id="site-name"><a href="/polls/">e-Learning</a></h1>
-    </div>
-    <div id="user-tools">
-        Welcome,
-        <strong>yutwat</strong>.
-        <a href="/">View site</a> /
-        <a href="/password_change/">Change password</a> /
-        <a href="/logout/">Log out</a>
-    </div>
-</div>
-<!-- END Header -->
-
-<div class="breadcrumbs">
-    <a href="/polls/">Home</a>
-</div>
+{% block breadcrumb %}
+  <h1 class="breadcrumb-item active">{{ "Questions" }}</h1>
+{% endblock %}
 
 <!-- Content -->
-<div id="content", class="flex">
+{% block content %}
+    {% if latest_question_list %}
+        <table>
+            <thead>
+              <tr>
+                <th>Question</th>
+                <th>Date</th>
+              </tr>
+            </thead>
 
-<h1>{{ "Questions" }}</h1>
+            <tbody>
+                {% for question in latest_question_list %}
+                <tr>
+                    <td><a href="{% url 'polls:detail' question.id %}"> {{ question.question_text }} </a></td>
+                    <td>{{question.pub_date}}</td> <!--comment: need to hide time from datetime data-->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+{% endblock %}
 
-{% if latest_question_list %}
-    <table>
-        <thead>
-          <tr>
-            <th>Question</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-
-        <tbody>
-            {% for question in latest_question_list %}
-            <tr>
-                <td><a href="{% url 'polls:detail' question.id %}"> {{ question.question_text }} </a></td>
-                <td>{{question.pub_date}}</td> <!--comment: need to hide time from datetime data-->
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
-</div>

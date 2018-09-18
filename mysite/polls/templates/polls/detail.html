@@ -8,45 +8,18 @@ Changing Log
 - Header was added on Sep 11 2018
 <------------------------------------->
 
+{% extends 'base.html' %}
 
-<!--stylesheet load-->
-{% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'polls/base.css' %}" />
 
-<!-- Latest compiled and minified CSS >
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<-->
-
-<!-- Header -->
-<div id="header">
-    <div id="branding">
-        <h1 id="site-name"><a href="/polls/">e-Learning</a></h1>
-    </div>
-    <div id="user-tools">
-        Welcome,
-        <strong>yutwat</strong>.
-        <a href="/">View site</a> /
-        <a href="/password_change/">Change password</a> /
-        <a href="/logout/">Log out</a>
-    </div>
-</div>
-<!-- END Header -->
-
-<div class="breadcrumbs">
-    <a href="/polls/">Home</a>
-    > 
-    <a href="{% url 'polls:detail' question.id %}">Question-{{ question.id }}</a>
-</div>
+{% block breadcrumb %}
+  <h1 class="breadcrumb-item active">Question-{{question.id}}</h1>
+{% endblock %}
 
 
 <!-- Content -->
-<body>
-<div id="content", class="flex">
-
-<h1>Question-{{question.id}}</h1>
+{% block content %}
 
 <h2>{{ question.question_text }}</h2>
-
 
 	<br>
 	<p>{{ question.description|linebreaksbr }}</p><br>
@@ -82,7 +55,4 @@ Changing Log
 	<!-- pagenate button -->
 	<a href="{% url 'polls:index' %}">Return</a>
 	<a href="{% url 'polls:detail'  question.id %}" align="right">Next Quiz</a>
-
-</div>
-
-</body>
+{% endblock %}

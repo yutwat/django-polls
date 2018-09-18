@@ -1,0 +1,50 @@
+<!------------- HEADER --------------->
+<!-- >
+Auther: Yutaro Watanabe
+Changing Log
+- First issued on Aug 27 2018
+- List view was added on Sep 4 2018
+<------------------------------------->
+
+
+<!--stylesheet load-->
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/base.css' %}" />
+
+
+<!-- Header -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}e-Learning{% endblock %}</title>
+</head>
+
+<body>
+    <div id="header">
+        <div id="branding">
+            <h1 id="site-name"><a href="/polls/">e-Learning</a></h1>
+        </div>
+        <div id="user-tools">
+            Welcome,
+            <strong>yutwat</strong>.
+            <a href="/">View site</a> /
+            <a href="/password_change/">Change password</a> /
+            <a href="/logout/">Log out</a>
+        </div>
+    </div>
+    <!-- END Header -->
+
+    <div class="breadcrumbs">
+        <a href="/polls/">Home</a>
+    </div>
+
+    <!-- Content -->
+    <div id="content", class="flex">
+        {% block breadcrumb %}
+        {% endblock %}
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>
