@@ -136,3 +136,7 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/polls/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+# added
+
+AUTH_USER_MODEL = 'accounts.User'
