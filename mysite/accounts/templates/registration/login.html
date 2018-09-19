@@ -22,33 +22,77 @@
     {% endif %}
   {% endif %}
 
+
+
   <h1>Login</h1>
   <form role="form" action="" method="post">
     {% csrf_token %}
-    <div>
-      <td>{{ form.username.label_tag }}</td>
-      <td>{{ form.username }}</td>
-    </div>
-    <div>
-      <td>{{ form.email.label_tag }}</td>
-      <td>{{ form.email }}</td>
-    </div>
-    <div>
-      <td>{{ form.password.label_tag }}</td>
-      <td>{{ form.password }}</td>
-    </div>
-      <!-- previously >
-      <td>{{ form.as_p }}</td>
-      <-->
-    <div>
-      <input type="submit" value="Submit" />
-      <input type="hidden" name="next" value="{{ next }}" />
-    </div>
+    
   </form>
 
+
+
+
+
+
+
+<div id="content-main">
+
+{% if user.is_authenticated %}
+<p class="errornote">
+    You are authenticated as {{ username }}, but are not authorized to
+    access this page. Would you like to login to a different account?
+</p>
+{% endif %}
+
+<form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
+  <div class="form-row">
+    {{ form.username.errors }}
+    {{ form.username.label_tag }} {{ form.username }}
+  </div>
+  <div class="form-row">
+    {{ form.password.errors }}
+    {{ form.password.label_tag }} {{ form.password }}
+    <input type="hidden" name="next" value="{{ next }}">
+  </div>
+  {% url 'admin_password_reset' as password_reset_url %}
+  {% if password_reset_url %}
+  <div class="password-reset-link">
+    <a href="{{ password_reset_url }}">{ 'Forgotten your password or username?' }</a>
+  </div>
+  {% endif %}
+  <div class="submit-row">
+    <label>&nbsp;</label><input type="submit" value="Log in">
+  </div>
+</form>
+
+
+<!--django.admin style -->
+
+<div id="content-main">
+<form action="/admin/login/" method="post" id="login-form"><input type="hidden" name="csrfmiddlewaretoken" value="nvlnOlrqgTmYJHTKwkpH8qI3dQ9QUTwk5sZE4WQNdXVbldIhxm6rCObDiG6ijyxM">
+  <div class="form-row">
+    
+    <label class="required" for="id_username">Username:</label> <input type="text" name="username" autofocus="" required="" id="id_username">
+  </div>
+  <div class="form-row">
+    
+    <label class="required" for="id_password">Password:</label> <input type="password" name="password" required="" id="id_password">
+    <input type="hidden" name="next" value="/admin/">
+  </div>
+  
+  
+  <div class="submit-row">
+    <label>&nbsp;</label><input type="submit" value="Log in">
+  </div>
+</form>
+</div>
+
+<!-- changing pasword -->
   {# Assumes you setup the password_change view in your URLconf #}
   <p><a href="{% url 'password_change' %}">Change password</a></p>
 
   {# Assumes you setup the password_reset view in your URLconf #}
   <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+
 {% endblock content %}
