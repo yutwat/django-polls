@@ -1,0 +1,31 @@
+<!------------- HEADER --------------->
+<!-- >
+Auther: Yutaro Watanabe
+Changing Log
+- First issued on Aug 27 2018
+- List view was added on Sep 4 2018
+<------------------------------------->
+
+
+<!--stylesheet load-->
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/base.css' %}" />
+
+<html>
+    <head>
+        <title>
+            {% block title %}
+            {% endblock title %}
+        </title>
+    </head>
+    <body>
+        <div class="page-header">
+            <h1><a href="/">e-Learning</a></h1>
+        </div>
+
+        <div class="content container">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </body>
+</html>
