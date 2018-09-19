@@ -9,20 +9,28 @@ Changing Log
 
 <!--stylesheet load-->
 {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'polls/base.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'accounts/base.css' %}" />
 
+<!-- Header -->
+<!DOCTYPE html>
 <html>
     <head>
-        <title>
-            {% block title %}
-            {% endblock title %}
-        </title>
+        <title>{% block title %}e-Learning{% endblock %}</title>
     </head>
-    <body>
-        <div class="page-header">
-            <h1><a href="/">e-Learning</a></h1>
-        </div>
 
+    <body>
+        <div id="header">
+            <div id="branding">
+                <h1 id="site-name"><a href="/">e-Learning</a></h1>
+            </div>
+            <div id="user-tools">
+                Welcome,
+                <strong>yutwat</strong>.
+                <a href="/password_change/">Change password</a> /
+                <a href="/accounts/logout/">Log out</a>
+            </div>
+        </div>
+        <!-- END Header -->
         <div class="content container">
             {% block content %}
             {% endblock content %}

@@ -140,3 +140,7 @@ LOGIN_REDIRECT_URL = '/'
 # added
 
 AUTH_USER_MODEL = 'accounts.User'
+
+
+# password reset email for testing
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
