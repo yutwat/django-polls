@@ -26,7 +26,8 @@ SECRET_KEY = 's42q0-d2-ih0fm=c3wy7b$0y756(pl!gkis&s(k95m1t1j#&!8'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1'
+    '127.0.0.1', 
+    '172.19.54.165', 
     ]
 
 
@@ -35,6 +36,7 @@ ALLOWED_HOSTS = [
 INSTALLED_APPS = [
     'polls.apps.PollsConfig',  # added
     'accounts.apps.AccountsConfig',  # added
+    'results.apps.ResultsConfig',  # added
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
