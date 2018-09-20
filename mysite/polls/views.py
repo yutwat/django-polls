@@ -3,8 +3,11 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.models import User
 
 from .models import Question, Choice, Answer
+from .forms import AnswerForm
 
 
 class IndexView(generic.ListView):
@@ -78,6 +81,7 @@ def vote(request, question_id):
 		
 		if str(selected_choice) == str(question.answer_set.get()):
 			return render(request, 'polls/detail.html', {
+				'user_name': request.user.email, 
 				'question': question,
 				'selected_choice': selected_choice,
 				'answer': question.answer_set.get(),
@@ -92,17 +96,28 @@ def vote(request, question_id):
 				'incorrect_message': 'Incorrect..',
 			})
 
+
+		form = AnswerForm(request.Post)
+		return render(request, 'polls:deatil', {'form': form})
+
 		# return HttpResponseRedirect(reverse('polls:check', args=(question.id,)))
-		# return render(request, reverse('polls:check', args=(question.id,)), {
-		# 	'selected_choice': request.POST['choice'],
-		# 	})
+		
 
-
-def check_answer(request, question_id):
-	question = get_object_or_404(Question, pk=question_id)
-	if request.GET.get('choice') == 'owe':
-		return render(request, 'polls/detail.html', {
-			'question': question,
-			'correct_message': 'Correct!',
-		})
-	
+# pagination
+def _get_page(list_, page_no, count=1):
+    
+    paginator = Paginator(list_, count)
+    try:
+        page = paginator.page(page_no)
+    except (EmptyPage, PageNotAnInteger):
+        page = paginator.page(1)
+    return page
+ 
+ 
+def index(request):
+    
+    page = _get_page(Message.objects.all(), request.GET.get('page'))
+    d = {
+        "page":page,
+        }
+    return render(request, 'page/index.html', d)

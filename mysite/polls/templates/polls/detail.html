@@ -40,8 +40,17 @@ Changing Log
 		<input type="submit" value="Submit">
 	</form><br>
 
+	<!--set froms.py example -->
+	<form action="{% url 'polls:vote' question.id %}" method="post">
+		{% csrf_token %}
+		<label for="your_name">Your answer: </label>
+		<input id="your_name" type="text" name="your_name" value="{{ username }}">
+		<input type="submit" value="OK">
+	</form>
+
 	<!-- judgement and result -->
 	{% if correct_message %}
+		<p>{{ user_name }}</p>
 		<p><strong>{{ correct_message }}</strong></p>
 		<li>Selected Choice:  <strong>{{ selected_choice }}</strong></li>
 		<li>Answer:  <strong>{{ answer }}</strong></li>
@@ -51,6 +60,10 @@ Changing Log
 		<li>Selected Choice:  <strong>{{ selected_choice }}</strong></li>
 		<li>Answer:  <strong>{{ answer }}</strong></li>
 	{% endif %}<br>
+
+	<!-- >{{ user.get_short_name }}<br><-->
+
+	
 
 	<!-- pagenate button -->
 	<a href="{% url 'polls:index' %}">Return</a>
