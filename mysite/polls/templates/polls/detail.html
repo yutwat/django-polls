@@ -40,13 +40,6 @@ Changing Log
 		<input type="submit" value="Submit">
 	</form><br>
 
-	<!--set froms.py example -->
-	<form action="{% url 'polls:vote' question.id %}" method="post">
-		{% csrf_token %}
-		<label for="your_name">Your answer: </label>
-		<input id="your_name" type="text" name="your_name" value="{{ username }}">
-		<input type="submit" value="OK">
-	</form>
 
 	<!-- judgement and result -->
 	{% if correct_message %}

@@ -6,4 +6,5 @@ from .models import Question, Choice, Answer
 class AnswerForm(forms.Form):
 
 	class Meta:
+		model = Answer
 		your_name = forms.CharField(label='Your name', max_length=100)

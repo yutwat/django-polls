@@ -34,7 +34,7 @@ class DetailView(generic.DetailView):
 		"""
 		return Question.objects.filter(pub_date__lte=timezone.now())
 
-
+ 	
 
 class ResultsView(generic.DetailView):
 	model = Question
@@ -42,28 +42,10 @@ class ResultsView(generic.DetailView):
 
 
 
-# ###############
-
-def index(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    template = loader.get_template('polls/index.html')
-    context = {
-        'latest_question_list': latest_question_list,
-    }
-    return HttpResponse(template.render(context, request))
-
-def detail(request, question_id):
-    return HttpResponse("You're looking at question %s." % question_id)
-
-def results(request, question_id):
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % question_id)
-
-# ###############
-
 
 def vote(request, question_id):
 	question = get_object_or_404(Question, pk=question_id)
+
 	try:
 		selected_choice = question.choice_set.get(pk=request.POST['choice'])
 	except (KeyError, Choice.DoesNotExist):
@@ -81,7 +63,7 @@ def vote(request, question_id):
 		
 		if str(selected_choice) == str(question.answer_set.get()):
 			return render(request, 'polls/detail.html', {
-				'user_name': request.user.email, 
+				'user_name': request.user.username, 
 				'question': question,
 				'selected_choice': selected_choice,
 				'answer': question.answer_set.get(),
@@ -97,10 +79,24 @@ def vote(request, question_id):
 			})
 
 
-		form = AnswerForm(request.Post)
-		return render(request, 'polls:deatil', {'form': form})
+# added for forms.py
+def get_name(request, question_id):
+	# if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = AnswerForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('polls/name.html')
 
-		# return HttpResponseRedirect(reverse('polls:check', args=(question.id,)))
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = AnswerForm()
+
+    return render(request, 'polls/name.html', {'form': form})
 		
 
 # pagination
@@ -113,7 +109,7 @@ def _get_page(list_, page_no, count=1):
         page = paginator.page(1)
     return page
  
- 
+''' 
 def index(request):
     
     page = _get_page(Message.objects.all(), request.GET.get('page'))
@@ -121,3 +117,4 @@ def index(request):
         "page":page,
         }
     return render(request, 'page/index.html', d)
+  '''
