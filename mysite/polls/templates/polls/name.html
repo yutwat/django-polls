@@ -20,7 +20,7 @@ Changing Log
 {% block content %}
 
 	<!--set froms.py example -->
-	<form action="{% url 'polls:results' question.id %}" method="post">
+	<form action="{% url 'polls:vote' question.id %}" method="post">
 	    {% csrf_token %}
 	    <strong>form from forms.py </strong>{{ form }}
 	    <input type="submit" value="Submit">
