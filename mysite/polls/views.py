@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 
 from .models import Question, Choice, Answer
-from .forms import AnswerForm
+from .forms import AnswerForm, QuestionForm
 
 
 
@@ -87,18 +87,19 @@ def get_name(request, question_id):
 	# if this is a POST request we need to process the form data
 	if request.method == 'POST':
 		# create a form instance and populate it with data from the request:
-		form = AnswerForm(request.POST)
+		# form = AnswerForm(request.POST)
+		form = QuestionForm(request.POST)
 		# check whether it's valid:
 		if form.is_valid():
-			form.save()
+			post = form.save()
 			# process the data in form.cleaned_data as required
 			# ...
 			# redirect to a new URL:
-			return HttpResponseRedirect('polls/.html')
+			return redirect('polls/detail.html', pk=post.pk)
 
 	# if a GET (or any other method) we'll create a blank form
 	else:
-		form = AnswerForm()
+		form = QuestionForm()
 
 	return render(request, 
 		'polls/name.html', {

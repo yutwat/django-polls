@@ -23,9 +23,8 @@ Changing Log
 
 	<form action="{% url 'polls:vote' question.id %}" method="post">
 	    {% csrf_token %}
-	    <strong>form from forms.py </strong>{{ form }}
-	    <input type="text" value="your name">
-	    <input type="submit" value="Submit">
+	    {{ form.as_p }}
+	    <input type="submit" name="submit" value="Submit!">
 	</form>
 
 {% endblock %}
