@@ -10,6 +10,7 @@ from .models import Question, Choice, Answer
 from .forms import AnswerForm
 
 
+
 class IndexView(generic.ListView):
 	template_name = 'polls/index.html'
 	context_object_name = 'latest_question_list'
@@ -81,40 +82,46 @@ def vote(request, question_id):
 
 # added for forms.py
 def get_name(request, question_id):
+	question = get_object_or_404(Question, pk=question_id)
+
 	# if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = AnswerForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return HttpResponseRedirect('polls/name.html')
+	if request.method == 'POST':
+		# create a form instance and populate it with data from the request:
+		form = AnswerForm(request.POST)
+		# check whether it's valid:
+		if form.is_valid():
+			# process the data in form.cleaned_data as required
+			# ...
+			# redirect to a new URL:
+			return HttpResponseRedirect('polls/name.html')
 
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = AnswerForm()
+	# if a GET (or any other method) we'll create a blank form
+	else:
+		form = AnswerForm()
 
-    return render(request, 'polls/name.html', {'form': form})
+	return render(request, 
+		'polls/name.html', {
+		'form': form, 
+		'question': question,
+		})
 		
 
 # pagination
 def _get_page(list_, page_no, count=1):
-    
-    paginator = Paginator(list_, count)
-    try:
-        page = paginator.page(page_no)
-    except (EmptyPage, PageNotAnInteger):
-        page = paginator.page(1)
-    return page
+
+	paginator = Paginator(list_, count)
+	try:
+		page = paginator.page(page_no)
+	except (EmptyPage, PageNotAnInteger):
+		page = paginator.page(1)
+	return page
  
 ''' 
 def index(request):
-    
-    page = _get_page(Message.objects.all(), request.GET.get('page'))
-    d = {
-        "page":page,
-        }
-    return render(request, 'page/index.html', d)
+	
+	page = _get_page(Message.objects.all(), request.GET.get('page'))
+	d = {
+		"page":page,
+		}
+	return render(request, 'page/index.html', d)
   '''

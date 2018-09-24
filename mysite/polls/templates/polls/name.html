@@ -12,7 +12,7 @@ Changing Log
 
 
 {% block breadcrumb %}
-  <h1 class="breadcrumb-item active">Question-{{question.id}}</h1>
+  <h1 class="breadcrumb-item active">Question-{{ question.id }}</h1>
 {% endblock %}
 
 
@@ -20,9 +20,11 @@ Changing Log
 {% block content %}
 
 	<!--set froms.py example -->
+
 	<form action="{% url 'polls:vote' question.id %}" method="post">
 	    {% csrf_token %}
 	    <strong>form from forms.py </strong>{{ form }}
+	    <input type="text" value="your name">
 	    <input type="submit" value="Submit">
 	</form>
 
