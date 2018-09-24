@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
@@ -90,6 +90,7 @@ def get_name(request, question_id):
 		form = AnswerForm(request.POST)
 		# check whether it's valid:
 		if form.is_valid():
+			form.save()
 			# process the data in form.cleaned_data as required
 			# ...
 			# redirect to a new URL:

@@ -1,9 +1,21 @@
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
-from django.views import generic
-from django.utils import timezone
-from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
+# from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import get_object_or_404, render, redirect
+
+from .models import User
+from .forms import SignUpForm
 
 # Create your views here.
-class SampleView(generic.)
+def signup(request):
+	if request.method == 'POST':
+		form = SignUpForm(request.POST)
+		if form.is_valid():
+			form.save()
+			username = form.cleaned_data.get('username')
+			raw_password = form.cleaned_data.get('password1')
+			user = authenticate(username=username, password=raw_password)
+			login(request, user)
+			return redirect('home')
+	else:
+		form = SignUpForm()
+	return render(request, 'accounts/signup.html', {'form': form})
