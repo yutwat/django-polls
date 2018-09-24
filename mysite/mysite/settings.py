@@ -120,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
@@ -136,7 +136,8 @@ STATIC_URL = '/static/'
 
 # add redirect page after successful login
 
-LOGIN_REDIRECT_URL = '/'
+SIGNUP_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/polls/'
 # LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 # added
