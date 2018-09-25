@@ -21,12 +21,12 @@ class ChoiceInline(admin.TabularInline):
 class QuestionAdmin(admin.ModelAdmin):
 	list_display = ('question_text', 'pub_date', 'was_published_recently')
 	fieldsets = [
-	(None,			   {'fields': ['question_text', 'description']}),
-	('Date information', {'fields': ['pub_date'], }),
+	(None,			   {'fields': ['question_text', 'description', 'week_num', 'release_flag']}),
+	('Date information', {'fields': ['pub_date', 'release_date'], }),
 	]
 	inlines = [ChoiceInline, SolutionInline]
-	list_filter = ['pub_date']
-	search_fields = ['question_text']
+	list_filter = ['pub_date', 'release_date']
+	search_fields = ['question_text', 'description', 'week_num', 'release_flag']
 
 admin.site.register(Question, QuestionAdmin)
 # ------
