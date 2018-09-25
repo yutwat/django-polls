@@ -80,29 +80,52 @@ def vote(request, question_id):
 			})
 
 
+def post_new(request, pk):
+	question = get_object_or_404(Question, pk=pk)
+	if request.method == "POST":
+		form = AnswerForm(request.POST)
+		if form.is_valid():
+			post = form.save(commit=False)
+			post.author = request.user
+			post.published_date = timezone.now()
+			post.save()
+			return redirect('detail', pk=post.pk)
+	else:
+		form = AnswerForm()
+	return render(request, 
+		'polls/post_edit.html', {
+		'form': form, 
+		'question': question,
+		})
+
+
 # added for forms.py
-def get_name(request, question_id):
-	question = get_object_or_404(Question, pk=question_id)
+def post_edit(request, pk):
+	question = get_object_or_404(Question, pk=pk)
+	post = get_object_or_404(Answer, pk=pk)
 
 	# if this is a POST request we need to process the form data
 	if request.method == 'POST':
 		# create a form instance and populate it with data from the request:
 		# form = AnswerForm(request.POST)
-		form = QuestionForm(request.POST)
+		form = AnswerForm(request.POST, instance=post)
 		# check whether it's valid:
 		if form.is_valid():
-			post = form.save()
+			post = form.save(commit=False)
+			post.user = request.user
+			post.published_date = 	timezone.now()
+			post.save()
 			# process the data in form.cleaned_data as required
 			# ...
 			# redirect to a new URL:
-			return redirect('polls/detail.html', pk=post.pk)
+			return redirect('polls:detail', pk=post.pk)
 
 	# if a GET (or any other method) we'll create a blank form
 	else:
-		form = QuestionForm()
+		form = AnswerForm(instance=post)
 
 	return render(request, 
-		'polls/name.html', {
+		'polls/post_edit.html', {
 		'form': form, 
 		'question': question,
 		})

@@ -1,9 +1,11 @@
 import datetime
-
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django import forms
+
+# from accounts.models import User
 
 class Question(models.Model):
 
@@ -79,6 +81,7 @@ class Answer(models.Model):
 		blank=True, 
 		help_text=_("a description of the answer")
 		)
+	author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 	# ...
 	def __str__(self):

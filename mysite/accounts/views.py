@@ -1,8 +1,8 @@
 from django.contrib.auth import login, authenticate
 # from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import get_object_or_404, render, redirect
-
-from .models import User
+from django.contrib.auth.models import User
+# from .models import User
 from .forms import SignUpForm
 
 # Create your views here.

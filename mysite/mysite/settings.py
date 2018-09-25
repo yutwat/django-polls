@@ -142,7 +142,7 @@ LOGIN_REDIRECT_URL = '/polls/'
 
 # added
 
-AUTH_USER_MODEL = 'accounts.User'
+# AUTH_USER_MODEL = 'accounts.User'
 
 
 # password reset email for testing

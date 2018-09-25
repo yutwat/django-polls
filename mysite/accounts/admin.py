@@ -1,9 +1,11 @@
-from django.contrib import admin
-from .models import User
-from django.contrib.auth.models import AbstractUser
+from django.contrib import admin, auth
+# from .models import User
+from django.contrib.auth.models import AbstractUser, User
+
 
 # Register your models here.
 
+'''
 class UserAdmin(admin.ModelAdmin):
 	list_display = (
 		'username', 
@@ -32,3 +34,4 @@ class UserAdmin(admin.ModelAdmin):
 	search_fields = ['username', 'email']
 	
 admin.site.register(User, UserAdmin)
+'''

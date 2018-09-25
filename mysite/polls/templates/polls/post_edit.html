@@ -18,10 +18,18 @@ Changing Log
 
 <!-- Content -->
 {% block content %}
+<h2>{{ question.question_text }}</h2>
+
+	<br>
+	<p>{{ question.description|linebreaksbr }}</p><br>
+
+	{% if error_message %}
+		<p><strong>{{ error_message }}</strong></p>
+	{% endif %}
 
 	<!--set froms.py example -->
 
-	<form  method="post">
+	<form action="{% url 'polls:post_edit' question.id %}" method="post">
 	    {% csrf_token %}
 	    {{ form.as_p }}
 	    <input type="submit" name="submit" value="Submit!">
