@@ -40,7 +40,17 @@ Changing Log
 		<input type="submit" value="Submit">
 	</form><br>
 
-	<a class="btn btn-default" href="{% url 'polls:post_edit' question.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+	<div class="post">
+		{% if user.is_superuser %}
+			<a class="btn btn-default" href="{% url 'polls:post_edit' question.id %}">Edit</a>
+		{% endif %}
+		
+		{{ form }}
+		<h1>{{ post.answer_text }}</h1>
+		<p>{{ post.published_date }}</p>
+	</div>
+
+	
 
 	{% endblock %}
 

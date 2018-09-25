@@ -127,6 +127,7 @@ def post_edit(request, pk):
 	return render(request, 
 		'polls/post_edit.html', {
 		'form': form, 
+		'post': post, 
 		'question': question,
 		})
 		
