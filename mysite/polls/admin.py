@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Question, Choice, Answer
+from .models import  Question, Choice, Solution
 from .forms import QuestionForm
 
-class AnswerInline(admin.TabularInline):
-	model = Answer
+class SolutionInline(admin.TabularInline):
+	model = Solution
 	extra = 0
 
 class ChoiceInline(admin.TabularInline):
@@ -17,16 +17,17 @@ class ChoiceInline(admin.TabularInline):
 	was_published_recently.short_description = 'Published recently?'
 
 
+# ---This is an old script---
 class QuestionAdmin(admin.ModelAdmin):
-	form = QuestionForm
-
 	list_display = ('question_text', 'pub_date', 'was_published_recently')
 	fieldsets = [
 	(None,			   {'fields': ['question_text', 'description']}),
 	('Date information', {'fields': ['pub_date'], }),
 	]
-	inlines = [ChoiceInline, AnswerInline]
+	inlines = [ChoiceInline, SolutionInline]
 	list_filter = ['pub_date']
 	search_fields = ['question_text']
 
 admin.site.register(Question, QuestionAdmin)
+# ------
+

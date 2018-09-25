@@ -1,3 +1,4 @@
+import os
 import datetime
 from django.contrib.auth.models import User
 from django.db import models
@@ -22,7 +23,21 @@ class Question(models.Model):
 	pub_date = models.DateTimeField(
 		'date published'
 		)
-	
+	week_num = models.CharField(
+		verbose_name=_("week"),
+		max_length=50, 
+		blank=False, 
+		default='week0', 
+		help_text=_("week number")
+		)
+	release_flag = models.BooleanField(
+		default=False,
+		help_text=_("release or not"),
+		)
+	release_date = models.DateTimeField(
+		'release date', 
+		null=True,
+		)
 
 	def __str__(self):
 		 return self.question_text
@@ -48,33 +63,22 @@ class Choice(models.Model):
 	votes = models.IntegerField(
 		default=0
 		)
-
-	# ...
-	def __str__(self):
-		return self.choice_text 
-
-
-class Descriptive(forms.Form):
-
-	answer_field = forms.CharField(
+	descriptive = forms.CharField(
 		label='Answer', 
 		max_length=50,
 		)
 
-	def clean_answer(self):
-		answer = self.cleaned_data['answer']
-		return answer
+	def __str__(self):
+		return self.choice_text 
 
 
-# added on 8-31-2018
-# descriptive answer form
-class Answer(models.Model):
+class Solution(models.Model):
 	
 	question = models.ForeignKey(
 		Question, 
 		on_delete=models.CASCADE
 		)
-	answer_text = models.CharField(
+	solution_text = models.CharField(
 		max_length=200
 		)
 	description = models.TextField(
@@ -86,4 +90,4 @@ class Answer(models.Model):
 
 	# ...
 	def __str__(self):
-		return self.answer_text 
+		return self.solution_text 

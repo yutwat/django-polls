@@ -6,8 +6,8 @@ from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 
-from .models import Question, Choice, Answer
-from .forms import AnswerForm, QuestionForm
+from .models import Question, Choice, Solution
+from .forms import SolutionForm, QuestionForm
 
 
 
@@ -29,7 +29,7 @@ class DetailView(generic.DetailView):
 	model = Question
 	template_name = 'polls/detail.html'
 
-	form_class = AnswerForm()
+	form_class = SolutionForm()
 
 	def get_queryset(self):
 		"""
@@ -42,6 +42,10 @@ class ResultsView(generic.DetailView):
 	model = Question
 	template_name = 'polls/results.html'
 
+
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, 'blog/post_detail.html', {'post': post})
 
 
 
@@ -84,7 +88,7 @@ def vote(request, question_id):
 def post_new(request, pk):
 	question = get_object_or_404(Question, pk=pk)
 	if request.method == "POST":
-		form = AnswerForm(request.POST)
+		form = SolutionForm(request.POST)
 		if form.is_valid():
 			post = form.save(commit=False)
 			post.author = request.user
@@ -92,7 +96,7 @@ def post_new(request, pk):
 			post.save()
 			return redirect('detail', pk=post.pk)
 	else:
-		form = AnswerForm()
+		form = SolutionForm()
 	return render(request, 
 		'polls/post_edit.html', {
 		'form': form, 
@@ -103,13 +107,13 @@ def post_new(request, pk):
 # added for forms.py
 def post_edit(request, pk):
 	question = get_object_or_404(Question, pk=pk)
-	post = get_object_or_404(Answer, pk=pk)
+	post = get_object_or_404(Solution, pk=pk)
 
 	# if this is a POST request we need to process the form data
 	if request.method == 'POST':
 		# create a form instance and populate it with data from the request:
-		# form = AnswerForm(request.POST)
-		form = AnswerForm(request.POST, instance=post)
+		# form = SolutionForm(request.POST)
+		form = SolutionForm(request.POST, instance=post)
 		# check whether it's valid:
 		if form.is_valid():
 			post = form.save(commit=False)
@@ -123,7 +127,7 @@ def post_edit(request, pk):
 
 	# if a GET (or any other method) we'll create a blank form
 	else:
-		form = AnswerForm(instance=post)
+		form = SolutionForm(instance=post)
 
 	return render(request, 
 		'polls/post_edit.html', {
