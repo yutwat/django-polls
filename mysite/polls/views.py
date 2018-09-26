@@ -67,20 +67,20 @@ def vote(request, question_id):
 		# with POST data. This prevents data from being posted twice if a
 		# user hits the Back button.
 		
-		if str(selected_choice) == str(question.answer_set.get()):
+		if str(selected_choice) == str(question.solution_set.get()):
 			return render(request, 'polls/detail.html', {
 				'user_name': request.user.username, 
 				'question': question,
 				'selected_choice': selected_choice,
-				'answer': question.answer_set.get(),
-				'answer_description': question.answer_set.get(),
+				'answer': question.solution_set.get(),
+				'answer_description': question.solution_set.get(),
 				'correct_message': 'Correct!',
 			})
 		else:
 			return render(request, 'polls/detail.html', {
 				'question': question,
 				'selected_choice': selected_choice,
-				'answer': question.answer_set.get(),
+				'answer': question.solution_set.get(),
 				'incorrect_message': 'Incorrect..',
 			})
 
