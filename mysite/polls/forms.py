@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from .models import Question, Choice, Solution
+from .models import Question, Choice, Solution, Comment
 
 
 # user answer form
@@ -18,3 +18,8 @@ class QuestionForm(ModelForm):
 	class Meta:
 		model = Question
 		fields = ['question_text', 'description']
+
+class CommentForm(ModelForm):
+	class Meta:
+		model = Comment
+		fields = ['text']

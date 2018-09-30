@@ -91,3 +91,13 @@ class Solution(models.Model):
 	# ...
 	def __str__(self):
 		return self.solution_text 
+
+
+class Comment(models.Model):
+	name = models.CharField(max_length=100, blank=True)
+	text = models.TextField(blank=True)
+	target = models.ForeignKey(Question, on_delete=models.CASCADE)
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return self.text[:10]

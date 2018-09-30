@@ -2,8 +2,9 @@
 
 {% block content %}
 	{% for question in question_list %}
-		<a href={% url "polls:detail" question.id %}><h2>{{ question.question_text }}</h2></a>
+		<a href={% url "polls:vote" question.id %}><h2>{{ question.question_text }}</h2></a>
 		<p>{{ question.description }}</p>
 		<p>Released: {{ question.release_date }}</p><br>
+		
 	{% endfor %}
 {% endblock %}

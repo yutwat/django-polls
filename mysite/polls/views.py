@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 
 from .models import Question, Choice, Solution
-from .forms import SolutionForm, QuestionForm
+from .forms import SolutionForm, QuestionForm, CommentForm
 
 
 
@@ -135,7 +135,27 @@ def post_edit(request, pk):
 		'post': post, 
 		'question': question,
 		})
-		
+
+# show your answer input page
+def your_answer(request, pk):
+	question = get_object_or_404(Question, pk=pk)
+	if request.method == "POST":
+		form = CommentForm(request.POST)
+		if form.is_valid():
+			post = form.save(commit=False)
+			post.name = request.user
+			post.target = question
+			post.save()
+			return redirect('polls:your_answer', pk=question.id)
+	else:
+		form = CommentForm()
+
+	return render(request, 
+		'polls/answer.html', {
+		'form': form, 
+		'question': question,
+		})
+
 
 # pagination
 def _get_page(list_, page_no, count=1):

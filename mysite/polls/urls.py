@@ -17,6 +17,7 @@ urlpatterns = [
     		queryset=Question.objects.all(), 
     		template_name='polls/about.html'), 
     	name='index_view'),
+    path('<int:pk>/answer/', views.your_answer, name='your_answer'), 
 ]
 
 # path('<int:question_id>/vote/', views.ResultsView.vote, name='vote'),

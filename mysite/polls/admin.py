@@ -1,6 +1,10 @@
 from django.contrib import admin
-from .models import  Question, Choice, Solution
+from .models import  Question, Choice, Solution, Comment
 from .forms import QuestionForm
+
+class CommentInline(admin.TabularInline):
+	model = Comment
+	extra = 0
 
 class SolutionInline(admin.TabularInline):
 	model = Solution
@@ -24,7 +28,7 @@ class QuestionAdmin(admin.ModelAdmin):
 	(None,			   {'fields': ['question_text', 'description', 'week_num', 'release_flag']}),
 	('Date information', {'fields': ['pub_date', 'release_date'], }),
 	]
-	inlines = [ChoiceInline, SolutionInline]
+	inlines = [ChoiceInline, SolutionInline, CommentInline]
 	list_filter = ['pub_date', 'release_date']
 	search_fields = ['question_text', 'description', 'week_num', 'release_flag']
 
