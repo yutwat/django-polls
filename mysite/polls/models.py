@@ -66,10 +66,17 @@ class Comment(models.Model):
 
 class Score(models.Model):
 	"""docstring for Score"models.Model"""
+	name = models.CharField(max_length=100, blank=True)
+	target = models.ForeignKey(Comment, on_delete=models.CASCADE)
 	score = models.DecimalField(max_digits=5, decimal_places=2)
 	total_score = models.DecimalField(max_digits=5, decimal_places=2)
 	score_rate = models.DecimalField(max_digits=3, decimal_places=2)
 
-
 	def __str__(self):
 		return self.score
+
+	def calc_total_score(self):
+		total_score = 
+
+
+
