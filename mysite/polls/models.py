@@ -9,35 +9,20 @@ from django import forms
 # from accounts.models import User
 
 class Question(models.Model):
-
 	question_text = models.CharField(
 		verbose_name=_("Question_text"),
-		max_length=200, 
-		blank=False
-		)
+		max_length=200, blank=False)
 	description = models.TextField(
 		verbose_name=_("Description"),
-		blank=True, 
-		help_text=_("a description of the quiz")
-		)
+		blank=True, help_text=_("a description of the quiz"))
 	pub_date = models.DateTimeField(
-		'date published'
-		)
+		'date published')
 	week_num = models.CharField(
-		verbose_name=_("week"),
-		max_length=50, 
-		blank=False, 
-		default='week0', 
-		help_text=_("week number")
-		)
+		verbose_name=_("week"), max_length=50, blank=False, 
+		default='week0', help_text=_("week number"))
 	release_flag = models.BooleanField(
-		default=False,
-		help_text=_("release or not"),
-		)
-	release_date = models.DateTimeField(
-		'release date', 
-		null=True,
-		)
+		default=False, help_text=_("release or not"),)
+	release_date = models.DateTimeField('release date', null=True,)
 
 	def __str__(self):
 		 return self.question_text
@@ -50,48 +35,25 @@ class Question(models.Model):
 	was_published_recently.boolean = True
 	was_published_recently.short_description = 'Published recently?'
 		
-
 class Choice(models.Model):
-	
-	question = models.ForeignKey(
-		Question, 
-		on_delete=models.CASCADE
-		)
-	choice_text = models.CharField(
-		max_length=200
-		)
-	votes = models.IntegerField(
-		default=0
-		)
-	descriptive = forms.CharField(
-		label='Answer', 
-		max_length=50,
-		)
+	question = models.ForeignKey(Question, on_delete=models.CASCADE)
+	choice_text = models.CharField(max_length=200)
+	votes = models.IntegerField(default=0)
+	descriptive = forms.CharField(label='Answer', max_length=50,)
 
 	def __str__(self):
 		return self.choice_text 
 
-
-class Solution(models.Model):
-	
-	question = models.ForeignKey(
-		Question, 
-		on_delete=models.CASCADE
-		)
-	solution_text = models.CharField(
-		max_length=200
-		)
-	description = models.TextField(
-		verbose_name=_("Description"),
-		blank=True, 
-		help_text=_("a description of the answer")
-		)
+class Solution(models.Model):	
+	question = models.ForeignKey(Question, on_delete=models.CASCADE)
+	solution_text = models.CharField(max_length=200)
+	description = models.TextField(verbose_name=_("Description"),
+		blank=True, help_text=_("a description of the answer"))
 	author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 	# ...
 	def __str__(self):
 		return self.solution_text 
-
 
 class Comment(models.Model):
 	name = models.CharField(max_length=100, blank=True)
@@ -101,3 +63,13 @@ class Comment(models.Model):
 
 	def __str__(self):
 		return self.text[:10]
+
+class Score(models.Model):
+	"""docstring for Score"models.Model"""
+	score = models.DecimalField(max_digits=5, decimal_places=2)
+	total_score = models.DecimalField(max_digits=5, decimal_places=2)
+	score_rate = models.DecimalField(max_digits=3, decimal_places=2)
+
+
+	def __str__(self):
+		return self.score
