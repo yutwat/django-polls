@@ -95,7 +95,7 @@ class Solution(models.Model):
 
 class Comment(models.Model):
 	name = models.CharField(max_length=100, blank=True)
-	text = models.TextField(blank=True)
+	text = models.TextField(blank=False)
 	target = models.ForeignKey(Question, on_delete=models.CASCADE)
 	created_at = models.DateTimeField(auto_now_add=True)
 
