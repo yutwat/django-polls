@@ -69,7 +69,7 @@ class Comment(models.Model):
 
 	@classmethod
 	def calc_score(self):
-		if str(self.text) != None:
+		if str(self.text) == str(Solution.solution_text):
 			score = 1
 			return self.score
 		else:
