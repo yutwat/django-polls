@@ -35,6 +35,7 @@ Changing Log
 		    {% for com in question.comment_set.all %}
 				<h2>{{ com.name }}</h2>
 				<p>{{ com.text }}</p>
+				<p>{{ com.score }}</p>
 				<p>{{ com.created_at }}</p><br>
 			{% endfor %}
 			<br>

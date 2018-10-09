@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 
-from .models import Question, Choice, Solution
+from .models import Question, Choice, Solution, Comment
 from .forms import SolutionForm, QuestionForm, CommentForm
 
 
@@ -136,17 +136,21 @@ def post_edit(request, pk):
 		'question': question,
 		})
 
-# show your answer input page
+# show your answer input pagex	
 def your_answer(request, pk):
 	question = get_object_or_404(Question, pk=pk)
 	if request.method == "POST":
 		form = CommentForm(request.POST)
+		# check whether it's valid:
 		if form.is_valid():
 			post = form.save(commit=False)
 			post.name = request.user
 			post.target = question
 			post.save()
+			# redirect to a new URL:
 			return redirect('polls:your_answer', pk=question.id)
+	
+	# if a GET (or any other method) we'll create a blank form
 	else:
 		form = CommentForm()
 
@@ -154,6 +158,7 @@ def your_answer(request, pk):
 		'polls/answer.html', {
 		'form': form, 
 		'question': question,
+		'score': Comment.calc_score(), 
 		})
 
 

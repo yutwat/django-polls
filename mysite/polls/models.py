@@ -53,30 +53,26 @@ class Solution(models.Model):
 
 	# ...
 	def __str__(self):
-		return self.solution_text 
+		return self.solution_text
 
 class Comment(models.Model):
 	name = models.CharField(max_length=100, blank=True)
 	text = models.TextField(blank=False)
 	target = models.ForeignKey(Question, on_delete=models.CASCADE)
 	created_at = models.DateTimeField(auto_now_add=True)
+	score = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	total_score = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	score_rate = models.DecimalField(max_digits=3, decimal_places=2, default=0)
 
 	def __str__(self):
 		return self.text[:10]
 
-class Score(models.Model):
-	"""docstring for Score"models.Model"""
-	name = models.CharField(max_length=100, blank=True)
-	target = models.ForeignKey(Comment, on_delete=models.CASCADE)
-	score = models.DecimalField(max_digits=5, decimal_places=2)
-	total_score = models.DecimalField(max_digits=5, decimal_places=2)
-	score_rate = models.DecimalField(max_digits=3, decimal_places=2)
-
-	def __str__(self):
-		return self.score
-
-	def calc_total_score(self):
-		total_score = 
-
-
+	@classmethod
+	def calc_score(self):
+		if str(self.text) != None:
+			score = 1
+			return self.score
+		else:
+			score = 0
+			return self.score
 
