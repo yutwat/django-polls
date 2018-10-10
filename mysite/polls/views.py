@@ -146,7 +146,15 @@ def your_answer(request, pk):
 			post = form.save(commit=False)
 			post.name = request.user
 			post.target = question
+
+			# scoring
+			if str(post.text)==str(question.solution_set.get()):
+				post.score = 1
+			else:
+				post.score = 0
+
 			post.save()
+
 			# redirect to a new URL:
 			return redirect('polls:your_answer', pk=question.id)
 	
@@ -158,7 +166,7 @@ def your_answer(request, pk):
 		'polls/answer.html', {
 		'form': form, 
 		'question': question,
-		'score': Comment.calc_score(), 
+		'solution': str(question.solution_set), 
 		})
 
 
