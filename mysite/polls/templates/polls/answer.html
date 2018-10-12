@@ -19,7 +19,7 @@ Changing Log
 <!-- Content -->
 {% block content %}
 
-<h2>{{ question.question_text }}</h2>
+	<h2>{{ question.question_text }}</h2>
 
 	<br>
 	<p>{{ question.description|linebreaksbr }}</p><br>
@@ -27,7 +27,6 @@ Changing Log
 	{% if error_message %}
 		<p><strong>{{ error_message }}</strong></p>
 	{% endif %}
-	
 
 	<div class="post">
 		<form action="{% url 'polls:your_answer' question.id %}" method="post">
@@ -42,8 +41,8 @@ Changing Log
 			<br>
 			{% csrf_token %}
 		    {{ form.as_p }}
-	    <input type="submit" name="submit" value="Submit!">
-	</form>
+	    	<input type="submit" name="submit" value="Submit!">
+		</form>
 	</div>
 
 	
