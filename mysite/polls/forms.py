@@ -19,6 +19,11 @@ class QuestionForm(ModelForm):
 		model = Question
 		fields = ['question_text', 'description']
 
+class ChoiceForm(ModelForm):
+	class Meta:
+		model = Choice
+		fields = ['choice_text']
+
 class CommentForm(ModelForm):
 	class Meta:
 		model = Comment

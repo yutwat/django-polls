@@ -31,13 +31,20 @@ Changing Log
 
 	<h2>Choose your answer</h2>
 
+
 	<!-- Error message
 	If is_error then show "You didn't select a choice." -->
 	{% if error_message %}
 		<p><strong>{{ error_message }}</strong></p>
 	{% endif %}
 
+	{% if question.choice_set is None %}
+		<p>There is a choice.</p>
+		<p>{{ question.choice_set }}</p>
+	{% endif %}	
+
 	<!-- Choices are here -->
+	{{ form }}
 	<form action="{% url 'polls:result' question.id %}" method="post" required>
 		{% csrf_token %}
 		{% for choice in question.choice_set.all %}
@@ -51,9 +58,9 @@ Changing Log
 	<hr size=5px color=gray>
 
 	<!-- Descriptive answer form is here -->
+	{% if user.is_superuser %}
 	<div class="post">
-		{% if user.is_superuser %}
-		<form action="{% url 'polls:detail' question.id %}" method="post">
+		<form action="{% url 'polls:your_answer' question.id %}" method="post">
 			<h2>Posted Comments</h2>
 			<!-- Show posted comment repeatedly -->
 		    {% for com in question.comment_set.all %}
@@ -70,8 +77,8 @@ Changing Log
 		    {{ form.as_p }}
 	    	<input type="submit" name="submit" value="Submit!">
 		</form>
-		{% endif %}
 	</div>
+	{% endif %}
 
 	{% endblock %}
 

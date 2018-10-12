@@ -37,9 +37,11 @@ class Question(models.Model):
 		
 class Choice(models.Model):
 	question = models.ForeignKey(Question, on_delete=models.CASCADE)
+	name = models.CharField(max_length=100, blank=True)
 	choice_text = models.CharField(max_length=200)
 	votes = models.IntegerField(default=0)
 	descriptive = forms.CharField(label='Answer', max_length=50,)
+	score = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
 	def __str__(self):
 		return self.choice_text 

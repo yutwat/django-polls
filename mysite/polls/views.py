@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 
 from .models import Question, Choice, Solution, Comment
-from .forms import SolutionForm, QuestionForm, CommentForm
+from .forms import SolutionForm, QuestionForm, ChoiceForm, CommentForm
 
 
 
@@ -29,6 +29,7 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
 	model = Question
 	template_name = 'polls/detail.html'
+	# context_object_name = 'choice_list'
 
 	def get_queryset(self):
 		""" Excludes any questions that aren't published yet. """
@@ -46,25 +47,43 @@ class DetailView(generic.DetailView):
 				'error_message': "You didn't select a choice.",
 			})
 		else:
-			selected_choice.votes += 1
-			selected_choice.save()
+			post = selected_choice.save(commit=False)
+			'''
+			if form.is_valid():
+				post = form.save(commit=False)
+				post.name = request.user_name
+				post.target = question
+				if str(post.choice_text)==str(question.solution_set.get()):
+					post.score = 1
+				else:
+					post.score = 0
+				post.save()
+
+				# redirect to a new URL:
+				return redirect('polls:detail', pk=question.id)
+			'''
+
+			post.votes += 1
+			post.name = request.user_name
+			post.score += 1
+			post.save()
 			# Always return an HttpResponseRedirect after successfully dealing
 			# with POST data. This prevents data from being posted twice if a
 			# user hits the Back button.
 			
-			if str(selected_choice) == str(question.solution_set.get()):
+			if str(post.choice_text) == str(question.solution_set.get()):
 				return render(request, 'polls/detail.html', {
 					'user_name': request.user.username, 
 					'question': question,
-					'selected_choice': selected_choice,
+					'selected_choice': post.choice_text,
 					'answer': question.solution_set.get(),
-					'answer_description': question.solution_set.get(),
 					'correct_message': 'Correct!',
+					'score': post.score, 
 				})
 			else:
 				return render(request, 'polls/detail.html', {
 					'question': question,
-					'selected_choice': selected_choice,
+					'selected_choice': post.choice_text,
 					'answer': question.solution_set.get(),
 					'incorrect_message': 'Incorrect..',
 				})
