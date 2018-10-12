@@ -15,26 +15,26 @@ Changing Log
 
 <!-- Content -->
 {% block content %}
-    {% if latest_question_list %}
+    {% if question_list %}
         <table>
             <thead>
-              <tr>
-                <th>Week</th>
-                <th>Question</th>
-                <th>Description</th>
-                <th>Release Date</th>
-              </tr>
-            </thead>
-
-            <tbody>
-                {% for question in latest_question_list %}
                 <tr>
-                    <td>{{ question.week_num }}</td> 
-                    <td><a href="{% url 'polls:detail' question.id %}"> {{ question.question_text }} </a></td>
-                    <td>{{ question.description }}</td> 
-                    <td>{{ question.release_date }}</td> 
-                    <!--comment: need to hide time from datetime data-->
+                    <th>Week</th>
+                    <th>Question</th>
+                    <th>Description</th>
+                    <th>Release Date</th>
                 </tr>
+            </thead>
+            
+            <tbody>
+                {% for question in question_list %}
+                    <tr>
+                        <td>{{ question.week_num }}</td> 
+                        <td><a href="{% url 'polls:detail' question.id %}"> {{ question.question_text }} </a></td>
+                        <td>{{ question.description }}</td> 
+                        <td>{{ question.release_date }}</td> 
+                        <!--comment: need to hide time from datetime data-->
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>

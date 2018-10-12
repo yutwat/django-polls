@@ -38,7 +38,7 @@ Changing Log
 	{% endif %}
 
 	<!-- Choices are here -->
-	<form action="{% url 'polls:vote' question.id %}" method="post" required>
+	<form action="{% url 'polls:result' question.id %}" method="post" required>
 		{% csrf_token %}
 		{% for choice in question.choice_set.all %}
 		    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
@@ -52,6 +52,7 @@ Changing Log
 
 	<!-- Descriptive answer form is here -->
 	<div class="post">
+		{% if user.is_superuser %}
 		<form action="{% url 'polls:detail' question.id %}" method="post">
 			<h2>Posted Comments</h2>
 			<!-- Show posted comment repeatedly -->
@@ -69,7 +70,6 @@ Changing Log
 		    {{ form.as_p }}
 	    	<input type="submit" name="submit" value="Submit!">
 		</form>
-		{% if user.is_superuser %}
 		{% endif %}
 	</div>
 
