@@ -44,7 +44,6 @@ Changing Log
 	{% endif %}	
 
 	<!-- Choices are here -->
-	{{ form }}
 	<form action="{% url 'polls:result' question.id %}" method="post" required>
 		{% csrf_token %}
 		{% for choice in question.choice_set.all %}

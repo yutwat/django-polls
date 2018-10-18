@@ -19,10 +19,11 @@ Changing Log
 <!-- Content -->
 {% block content %}
 
-	<h2>{{ question.question_text }}</h2>
-
-	<br>
-	<p>{{ question.description|linebreaksbr }}</p><br>
+	<article>
+		<h2>{{ question.question_text }}</h2>
+		<br>
+		<p>{{ question.description|linebreaksbr }}</p><br>
+	</article>
 
 	{% if error_message %}
 		<p><strong>{{ error_message }}</strong></p>

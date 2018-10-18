@@ -12,7 +12,8 @@ class SolutionInline(admin.TabularInline):
 
 class ChoiceInline(admin.TabularInline):
 	model = Choice
-	extra = 3
+	# extra = 3
+	extra = 0
 	def was_published_recently(self):
 		now = timezone.now()
 		return now - datetime.timedelta(days=1) <= self.pub_date <= now

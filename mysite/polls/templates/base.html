@@ -15,50 +15,63 @@ Changing Log
 <!-- Header -->
 <!DOCTYPE html>
 <html>
-<head>
-    <title>{% block title %}e-Learning{% endblock %}</title>
-</head>
+    <head>
+        <title>{% block title %}e-Learning{% endblock %}</title>
+    </head>
 
-<body>
-    <div id="header">
-        <div id="branding">
-            <h1 id="site-name"><a href="/">e-Learning</a></h1>
+    <body>
+        <!-- header -->
+        <div id="header">
+            <div id="branding">
+                <h1 id="site-name"><a href="/">e-Learning</a></h1>
+            </div>
         </div>
-    </div>
-    <!-- END Header -->
+        <!-- END Header -->
 
-    <div class="breadcrumbs">
-        <a href="/polls/">Home</a>
-    </div>
+        <!--navi bar-->
+        <div id="navi">
+            <ul>
+                <li><a href="/polls/">Home</a></li>
+                <li><a href="/contact/">Contact</a></li>
+            </ul>
+        </div>
 
-    <!-- Content -->
-    <div id="content", class="flex">
-        {% block breadcrumb %}
-        {% endblock %}
-        {% block content %}
-        {% endblock %}
+        <!-- Content -->
+        <div id="content", class="flex">
+            {% block breadcrumb %}
+            {% endblock %}
+            {% block content %}
+            {% endblock %}
 
-            <!-- judgement and result -->
-        {% if correct_message %}
-            <p>{{ user_name }}</p>
-            <p><strong>{{ correct_message }}</strong></p>
-            <li><strong>Score: {{ score }}</strong></li>
-            <li>Selected Choice:  <strong>{{ selected_choice }}</strong></li>
-            <li>Answer:  <strong>{{ answer }}</strong></li>
-            <li>Description: {{ answer_description }}</li>
-        {% elif incorrect_message %}
-            <p><strong>{{ incorrect_message }}</strong></p>
-            <li>Selected Choice:  <strong>{{ selected_choice }}</strong></li>
-            <li>Answer:  <strong>{{ answer }}</strong></li>
-        {% endif %}<br>
+                <!-- judgement and result -->
+            {% if correct_message %}
+                <p>{{ user_name }}</p>
+                <p><strong>{{ correct_message }}</strong></p>
+                <li><strong>Score: {{ score }}</strong></li>
+                <li>Selected Choice:  <strong>{{ selected_choice }}</strong></li>
+                <li>Answer:  <strong>{{ answer }}</strong></li>
+                <li>Description: {{ answer_description }}</li>
+            {% elif incorrect_message %}
+                <p><strong>{{ incorrect_message }}</strong></p>
+                <li>Selected Choice:  <strong>{{ selected_choice }}</strong></li>
+                <li>Answer:  <strong>{{ answer }}</strong></li>
+            {% endif %}<br>
 
-        <!-- >{{ user.get_short_name }}<br><-->
+            <!-- >{{ user.get_short_name }}<br><-->
 
-        
+            <!-- pagenate button -->
+            <div class="pagination">
+                <a href="#">&laquo;</a>
+                <a href="#">1</a>
+                <a href="#" class="active">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#">&raquo;</a>
+                <!-- <a href="{% url 'polls:index' %}">Return</a> -->
+            </div>
+            
+        </div>
 
-        <!-- pagenate button -->
-        <a href="{% url 'polls:index' %}">Return</a>
-    </div>
-
-</body>
+    </body>
 </html>
