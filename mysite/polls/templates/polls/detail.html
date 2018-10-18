@@ -8,7 +8,7 @@ Changing Log
 - Header was added on Sep 11 2018
 <------------------------------------->
 
-{% extends 'base.html' %}
+{% extends 'base_detail.html' %}
 
 
 {% block breadcrumb %}
@@ -17,7 +17,7 @@ Changing Log
 
 
 <!-- Content -->
-{% block content %}
+{% block question %}
 
 	<!-- Main Question -->
 	<h2>{{ question.question_text }}</h2>
@@ -64,11 +64,12 @@ Changing Log
 			<!-- Show posted comment repeatedly -->
 		    {% for com in question.comment_set.all %}
 		    	<!-- Show posted content indivisually -->
+		    	<br>
 				<h3>{{ com.name }}</h3>
 				<p>{{ com.text }}</p>
 				<p>{{ com.score }}</p>
 				<p>solution is {{ question.solution_set.get }}</p>
-				<p>{{ com.created_at }}</p><br>
+				<p>{{ com.created_at }}</p>
 			{% endfor %}
 			<br>
 			<!-- Answer form -->
@@ -79,5 +80,5 @@ Changing Log
 	</div>
 	{% endif %}
 
-	{% endblock %}
+{% endblock question %}
 

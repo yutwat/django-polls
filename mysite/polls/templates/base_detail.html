@@ -1,0 +1,42 @@
+<!------------- HEADER --------------->
+<!-- >
+Auther: Yutaro Watanabe
+Changing Log
+- First issued on Aug 27 2018
+- List view was added on Sep 4 2018
+<------------------------------------->
+
+{% extends 'base.html' %}
+
+<!-- Content -->
+{% block content %}
+    
+    {% block question %}
+    {% endblock question %}
+
+    <!-- judgement and result -->
+    {% if correct_message %}
+        <p>{{ user_name }}</p>
+        <p><strong>{{ correct_message }}</strong></p>
+        <li><strong>Score: {{ score }}</strong></li>
+        <li>Selected Choice:  <strong>{{ selected_choice }}</strong></li>
+        <li>Answer:  <strong>{{ answer }}</strong></li>
+        <li>Description: {{ answer_description }}</li>
+    {% elif incorrect_message %}
+        <p><strong>{{ incorrect_message }}</strong></p>
+        <li>Selected Choice:  <strong>{{ selected_choice }}</strong></li>
+        <li>Answer:  <strong>{{ answer }}</strong></li>
+    {% endif %}<br>
+
+    <!-- pagenate button -->
+    <div class="pagination">
+        <a href="#">&laquo;</a>
+        <a href="#">1</a>
+        <a href="#" class="active">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">&raquo;</a>
+        <!-- <a href="{% url 'polls:index' %}">Return</a> -->
+    </div>
+{% endblock content %}

@@ -859,7 +859,7 @@ table#change-history tbody th {
     font-size: 14px;
     margin: -8px 0 8px 0;
     font-weight: normal;
-    color: #ffc;
+    color: #777777;
 }
 
 #branding a:hover {
@@ -1006,7 +1006,7 @@ table#change-history tbody th {
     padding: 10px 20px;
 }
 
-/* Pagination Buttom */
+/* PAGINATION */
 .pagination {
     display: inline-block;
 }
