@@ -28,6 +28,7 @@ class IndexView(generic.ListView):
 
 class DetailView(generic.DetailView):
 	model = Question
+	form_class = CommentForm
 	template_name = 'polls/detail.html'
 	# context_object_name = 'choice_list'
 
@@ -35,64 +36,10 @@ class DetailView(generic.DetailView):
 		""" Excludes any questions that aren't published yet. """
 		return Question.objects.filter(pub_date__lte=timezone.now())
 
-	def vote(request, question_id):
-		question = get_object_or_404(Question, pk=question_id)
-
-		try:
-			selected_choice = question.choice_set.get(pk=request.POST['choice'])
-		except (KeyError, Choice.DoesNotExist):
-			# Redisplay the question voting form.
-			return render(request, 'polls/detail.html', {
-				'question': question,
-				'error_message': "You didn't select a choice.",
-			})
-		else:
-			post = selected_choice.save(commit=False)
-			'''
-			if form.is_valid():
-				post = form.save(commit=False)
-				post.name = request.user_name
-				post.target = question
-				if str(post.choice_text)==str(question.solution_set.get()):
-					post.score = 1
-				else:
-					post.score = 0
-				post.save()
-
-				# redirect to a new URL:
-				return redirect('polls:detail', pk=question.id)
-			'''
-
-			post.votes += 1
-			post.name = request.user_name
-			post.score += 1
-			post.save()
-			# Always return an HttpResponseRedirect after successfully dealing
-			# with POST data. This prevents data from being posted twice if a
-			# user hits the Back button.
-			
-			if str(post.choice_text) == str(question.solution_set.get()):
-				return render(request, 'polls/detail.html', {
-					'user_name': request.user.username, 
-					'question': question,
-					'selected_choice': post.choice_text,
-					'answer': question.solution_set.get(),
-					'correct_message': 'Correct!',
-					'score': post.score, 
-				})
-			else:
-				return render(request, 'polls/detail.html', {
-					'question': question,
-					'selected_choice': post.choice_text,
-					'answer': question.solution_set.get(),
-					'incorrect_message': 'Incorrect..',
-				})
-
-	# show your answer input pagex	
-	def your_answer(request, pk):
+	def your_answer(self, request, pk):
 		question = get_object_or_404(Question, pk=pk)
 		if request.method == "POST":
-			form = CommentForm(request.POST)
+			form = self.form_class(request.POST)
 			# check whether it's valid:
 			if form.is_valid():
 				post = form.save(commit=False)
@@ -104,22 +51,27 @@ class DetailView(generic.DetailView):
 					post.score = 1
 				else:
 					post.score = 0
-
 				post.save()
 
 				# redirect to a new URL:
-				return redirect('polls:detail', pk=question.id)
+				return redirect(self.template_name, pk=question.id)
 		
 		# if a GET (or any other method) we'll create a blank form
 		else:
-			form = CommentForm()
+			form = self.form_class()
 
-		return render(request, 
-			'polls/detail.html', {
-			'form': form, 
-			'question': question,
-			'solution': str(question.solution_set), 
-			})
+		return render(request, self.template_name, {'form': form})
+
+
+class CommentCreateView(generic.CreateView):
+	model = Question
+	form_class = QuestionForm
+	context_object_name = 'question'
+	queryset = Question.objects.all()
+	template_name = 'polls/create.html'
+	success_url = 'polls/'  # redirect url when it succeeds.
+
+	# return render(request, template_name, {'form': form})
 
 
 class ResultsView(generic.DetailView):

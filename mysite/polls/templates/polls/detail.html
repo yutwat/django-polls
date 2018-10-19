@@ -19,18 +19,9 @@ Changing Log
 <!-- Content -->
 {% block question %}
 
-	<!-- Main Question -->
-	<h2>{{ question.question_text }}</h2>
-
-	<br>
-
-	<!-- Question description -->
-	<p>{{ question.description|linebreaksbr }}</p><br>
-
 	<hr size=5px color=gray><br>
 
 	<h2>Choose your answer</h2>
-
 
 	<!-- Error message
 	If is_error then show "You didn't select a choice." -->
@@ -56,29 +47,8 @@ Changing Log
 
 	<hr size=5px color=gray>
 
-	<!-- Descriptive answer form is here -->
-	{% if user.is_superuser %}
-	<div class="post">
-		<form action="{% url 'polls:your_answer' question.id %}" method="post">
-			<h2>Posted Comments</h2>
-			<!-- Show posted comment repeatedly -->
-		    {% for com in question.comment_set.all %}
-		    	<!-- Show posted content indivisually -->
-		    	<br>
-				<h3>{{ com.name }}</h3>
-				<p>{{ com.text }}</p>
-				<p>{{ com.score }}</p>
-				<p>solution is {{ question.solution_set.get }}</p>
-				<p>{{ com.created_at }}</p>
-			{% endfor %}
-			<br>
-			<!-- Answer form -->
-			{% csrf_token %}
-		    {{ form.as_p }}
-	    	<input type="submit" name="submit" value="Submit!">
-		</form>
-	</div>
-	{% endif %}
-
+	<!-- Answer form -->
+	{% block answerform %}{% endblock answerform %}
+	
 {% endblock question %}
 

@@ -11,6 +11,10 @@ Changing Log
 <!-- Content -->
 {% block content %}
     
+    <!-- Main Question -->
+    <h2>{{ question.question_text }}</h2>
+    <!-- Question description -->
+    <p>{{ question.description|linebreaksbr }}</p><br>
     {% block question %}
     {% endblock question %}
 
@@ -27,6 +31,25 @@ Changing Log
         <li>Selected Choice:  <strong>{{ selected_choice }}</strong></li>
         <li>Answer:  <strong>{{ answer }}</strong></li>
     {% endif %}<br>
+
+    <!-- posted comment -->
+    {% if user.is_superuser %}
+    <div class="post">
+        <h2>Posted Comments</h2>
+        <!-- Show posted comment repeatedly -->
+        {% for com in question.comment_set.all %}
+            <!-- Show posted content indivisually -->
+            <br>
+            <h3>{{ com.name }}</h3>
+            <p>{{ com.text }}</p>
+            <p>{{ com.score }}</p>
+            <p>solution is {{ question.solution_set.get }}</p>
+            <p>{{ com.created_at }}</p>
+        {% endfor %}
+        <br>
+    </div>
+    {% endif %}
+
 
     <!-- pagenate button -->
     <div class="pagination">
