@@ -30,7 +30,7 @@ Changing Log
                 {% for question in question_list %}
                     <tr>
                         <td>{{ question.week_num }}</td> 
-                        <td><a href="{% url 'polls:detail' question.id %}"> {{ question.question_text }} </a></td>
+                        <td><a href="{% url 'polls:question_detail' question.id %}"> {{ question.question_text }} </a></td>
                         <td>{{ question.description }}</td> 
                         <td>{{ question.release_date }}</td> 
                         <!--comment: need to hide time from datetime data-->

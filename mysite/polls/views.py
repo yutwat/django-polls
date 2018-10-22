@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -9,12 +9,10 @@ from django.contrib.auth.models import User
 from .models import Question, Choice, Solution, Comment
 from .forms import SolutionForm, QuestionForm, ChoiceForm, CommentForm
 
-
-
-class IndexView(generic.ListView):
-	template_name = 'polls/index.html'
+class QuestionListView(generic.ListView):
 	# context_object_name = 'latest_question_list'
-	context_object_name = 'question_list'
+	# context_object_name = 'question_list'
+	paginate_by = 10
 
 	def get_queryset(self):
 		"""
@@ -25,65 +23,32 @@ class IndexView(generic.ListView):
 			pub_date__lte=timezone.now()
 		).order_by('pub_date')[:5]
 
-
-class DetailView(generic.DetailView):
+class QuestionDetailView(generic.DetailView):
 	model = Question
 	form_class = CommentForm
-	template_name = 'polls/detail.html'
-	# context_object_name = 'choice_list'
-
-	def get_queryset(self):
-		""" Excludes any questions that aren't published yet. """
-		return Question.objects.filter(pub_date__lte=timezone.now())
-
-	def your_answer(self, request, pk):
-		question = get_object_or_404(Question, pk=pk)
-		if request.method == "POST":
-			form = self.form_class(request.POST)
-			# check whether it's valid:
-			if form.is_valid():
-				post = form.save(commit=False)
-				post.name = request.user
-				post.target = question
-
-				# scoring
-				if str(post.text)==str(question.solution_set.get()):
-					post.score = 1
-				else:
-					post.score = 0
-				post.save()
-
-				# redirect to a new URL:
-				return redirect(self.template_name, pk=question.id)
-		
-		# if a GET (or any other method) we'll create a blank form
-		else:
-			form = self.form_class()
-
-		return render(request, self.template_name, {'form': form})
-
 
 class CommentCreateView(generic.CreateView):
 	model = Question
 	form_class = QuestionForm
-	context_object_name = 'question'
-	queryset = Question.objects.all()
-	template_name = 'polls/create.html'
-	success_url = 'polls/'  # redirect url when it succeeds.
+	context_object_name = 'question_list'
+	# template_name = 'polls/create.html'
+	success_url = reverse_lazy('question_list')  # redirect url when it succeeds.
 
 	# return render(request, template_name, {'form': form})
 
+	def form_valid(self, form):
+		result = super().form_valid(form)
+		messages.success(
+			self.request, '"{}" was successfully created.'.format(form.instance))
+		return result
 
 class ResultsView(generic.DetailView):
 	model = Question
 	template_name = 'polls/results.html'
 
-
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    return render(request, 'blog/post_detail.html', {'post': post})
-
-
+    return render(request, 'blog/post_question_detail.html', {'post': post})
 
 def vote(request, question_id):
 	question = get_object_or_404(Question, pk=question_id)
@@ -92,7 +57,7 @@ def vote(request, question_id):
 		selected_choice = question.choice_set.get(pk=request.POST['choice'])
 	except (KeyError, Choice.DoesNotExist):
 		# Redisplay the question voting form.
-		return render(request, 'polls/detail.html', {
+		return render(request, 'polls/question_detail.html', {
 			'question': question,
 			'error_message': "You didn't select a choice.",
 		})
@@ -104,7 +69,7 @@ def vote(request, question_id):
 		# user hits the Back button.
 		
 		if str(selected_choice) == str(question.solution_set.get()):
-			return render(request, 'polls/detail.html', {
+			return render(request, 'polls/question_detail.html', {
 				'user_name': request.user.username, 
 				'question': question,
 				'selected_choice': selected_choice,
@@ -113,13 +78,12 @@ def vote(request, question_id):
 				'correct_message': 'Correct!',
 			})
 		else:
-			return render(request, 'polls/detail.html', {
+			return render(request, 'polls/question_detail.html', {
 				'question': question,
 				'selected_choice': selected_choice,
 				'answer': question.solution_set.get(),
 				'incorrect_message': 'Incorrect..',
 			})
-
 
 def post_new(request, pk):
 	question = get_object_or_404(Question, pk=pk)
@@ -130,7 +94,7 @@ def post_new(request, pk):
 			post.author = request.user
 			post.published_date = timezone.now()
 			post.save()
-			return redirect('detail', pk=post.pk)
+			return redirect('question_detail', pk=post.pk)
 	else:
 		form = SolutionForm()
 	return render(request, 
@@ -138,7 +102,6 @@ def post_new(request, pk):
 		'form': form, 
 		'question': question,
 		})
-
 
 # added for forms.py
 def post_edit(request, pk):
@@ -159,7 +122,7 @@ def post_edit(request, pk):
 			# process the data in form.cleaned_data as required
 			# ...
 			# redirect to a new URL:
-			return redirect('polls:detail', pk=post.pk)
+			return redirect('polls:question_detail', pk=post.pk)
 
 	# if a GET (or any other method) we'll create a blank form
 	else:
@@ -216,12 +179,3 @@ def _get_page(list_, page_no, count=1):
 		page = paginator.page(1)
 	return page
  
-''' 
-def index(request):
-	
-	page = _get_page(Message.objects.all(), request.GET.get('page'))
-	d = {
-		"page":page,
-		}
-	return render(request, 'page/index.html', d)
-  '''

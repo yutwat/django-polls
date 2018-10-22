@@ -12,6 +12,9 @@ Changing Log
 {% block content %}
     
     <!-- Main Question -->
+    {% for que in question_list %}
+        <li>{{ que.question_text }}</li>
+    {% endfor %}
     <h2>{{ question.question_text }}</h2>
     <!-- Question description -->
     <p>{{ question.description|linebreaksbr }}</p><br>
@@ -60,6 +63,6 @@ Changing Log
         <a href="#">4</a>
         <a href="#">5</a>
         <a href="#">&raquo;</a>
-        <!-- <a href="{% url 'polls:index' %}">Return</a> -->
+        <!-- <a href="{% url 'polls:question_list' %}">Return</a> -->
     </div>
 {% endblock content %}
