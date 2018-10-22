@@ -25,16 +25,16 @@ class QuestionListView(generic.ListView):
 
 class QuestionDetailView(generic.DetailView):
 	model = Question
-	form_class = CommentForm
+
+class ChoiceCreateView(generic.CreateView):
+	model = Choice
+	form_class = ChoiceForm
+	success_url = reverse_lazy('question_list')
 
 class CommentCreateView(generic.CreateView):
 	model = Question
 	form_class = QuestionForm
-	context_object_name = 'question_list'
-	# template_name = 'polls/create.html'
 	success_url = reverse_lazy('question_list')  # redirect url when it succeeds.
-
-	# return render(request, template_name, {'form': form})
 
 	def form_valid(self, form):
 		result = super().form_valid(form)
@@ -43,12 +43,8 @@ class CommentCreateView(generic.CreateView):
 		return result
 
 class ResultsView(generic.DetailView):
-	model = Question
+	model = Solution
 	template_name = 'polls/results.html'
-
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    return render(request, 'blog/post_question_detail.html', {'post': post})
 
 def vote(request, question_id):
 	question = get_object_or_404(Question, pk=question_id)
@@ -167,7 +163,6 @@ def your_answer(request, pk):
 		'question': question,
 		'solution': str(question.solution_set), 
 		})
-
 
 # pagination
 def _get_page(list_, page_no, count=1):

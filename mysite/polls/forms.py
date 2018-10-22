@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import ModelForm
+from django.forms.models import modelformset_factory
 
 from .models import Question, Choice, Solution, Comment
 
@@ -10,7 +11,6 @@ class SolutionForm(ModelForm):
 	class Meta:
 		model = Solution
 		fields = ['solution_text', 'description',]
-
 
 # user answer form
 class QuestionForm(ModelForm):
